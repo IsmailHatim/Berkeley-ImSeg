@@ -85,3 +85,70 @@ def compute_jaccard_score(image1, image2):
     iou = round(jaccard_score(image1.flatten(), image2.flatten(), average='binary').item(), 8)
 
     return iou
+
+def extract_edges(binary_image):
+    """
+    Extract edges from a binary mask using morphological operations.
+
+    Args:
+        binary_image: numpy.ndarray
+            The binary image (0 and 255 values).
+
+    Returns:
+        edges: numpy.ndarray
+            The binary edge image.
+    """
+    kernel = np.ones((3, 3), np.uint8)
+    
+    # Apply dilation and erosion
+    dilated = cv2.dilate(binary_image, kernel, iterations=1)
+    eroded = cv2.erode(binary_image, kernel, iterations=1)
+    
+    # Compute the boundary (morphological gradient)
+    edges = cv2.absdiff(dilated, eroded)
+
+    return edges
+
+def compute_boundary_recall(image1, image2, tolerance=2):
+    """
+    Compute the Boundary Recall between two binary images.
+
+    Args:
+        image1: numpy.ndarray
+            The first binary image (ground truth).
+        
+        image2: numpy.ndarray
+            The second binary image (prediction).
+        
+        tolerance: int, optional
+            The distance tolerance to match boundaries, default is 2 pixels.
+
+    Returns:
+        recall: float
+            The boundary recall score between the two images.
+    """
+    # Convert images to binary (foreground=1, background=0)
+    binary1 = (image1 == 255).astype(np.uint8)
+    binary2 = (image2 == 255).astype(np.uint8)
+    
+    # Detect edges using Canny
+    edges1 = extract_edges(binary1)
+    edges2 = extract_edges(binary2)
+    
+    # Get edge coordinates
+    y1, x1 = np.where(edges1 > 0)
+    y2, x2 = np.where(edges2 > 0)
+    
+    if len(x1) == 0:
+        return 0.0  # No edges in ground truth, recall is 0
+    
+    # Compute distance transform from predicted edges
+    dist_transform = cv2.distanceTransform(edges2, cv2.DIST_L2, 5)
+    
+    # Count the number of ground truth edges within tolerance
+    matched = np.sum(dist_transform[y1, x1] <= tolerance)
+    
+    # Compute recall
+    recall = round(matched / len(x1), 4)
+    
+    return recall
