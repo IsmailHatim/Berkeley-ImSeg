@@ -82,6 +82,6 @@ def compute_jaccard_score(image1, image2):
     image2 = (image2 == 255).astype(np.uint8)
 
     # Compute Jaccard score
-    iou = round(jaccard_score(image1.flatten(), image2.flatten(), average='binary').item(), 4)
+    iou = round(jaccard_score(image1.flatten(), image2.flatten(), average='binary').item(), 8)
 
     return iou
