@@ -4,7 +4,7 @@ import scipy
 from sklearn.metrics import jaccard_score
 
 
-def load_image(path):
+def load_image(path, colorspace=cv2.IMREAD_GRAYSCALE):
 
     """
     Load an image from the specified path and convert it to grayscale.
@@ -17,7 +17,7 @@ def load_image(path):
         The grayscaled image loaded from the specific path
     """
 
-    image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+    image = cv2.imread(path, colorspace)
     
     if image is None:
         raise FileNotFoundError(f'The file at path {path} does not exist or could not be loaded')
