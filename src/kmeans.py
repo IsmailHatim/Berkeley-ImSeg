@@ -18,7 +18,9 @@ def kmeans_segmentation(image, k):
             The binary image resulting from the tresholdind process, where
             foreground pixels are set to 255 and background pixels to 0
     """
-
+    if len(image.shape) != 2:
+        raise ValueError('Input image must be a grayscale image (2D array)')
+        
     pixels = image.reshape((-1, 1))
     kmeans = KMeans(n_clusters=k, n_init=10, random_state=42)
     labels = kmeans.fit_predict(pixels)
