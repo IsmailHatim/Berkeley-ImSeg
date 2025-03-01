@@ -40,7 +40,6 @@ def load_gt(gt_path):
             set to 255 and background pixels are set to 0.
     """
     
-    # Load the .mat file
     data = scipy.io.loadmat(gt_path)
     
     if data is None:
@@ -50,10 +49,8 @@ def load_gt(gt_path):
     gt = data['groundTruth'][0][0]
     gt = gt['Segmentation'][0][0]
 
-    # Convert the segmentation into binary format
     gt_segmentation_bin = (gt > 1).astype(np.uint8) * 255 
 
-    # match the foreground and background with Otsu's output
     gt_segmentation_bin = 255 - gt_segmentation_bin 
 
     return gt_segmentation_bin
@@ -77,12 +74,10 @@ def compute_jaccard_score(image1, image2):
 
     """
     
-    # Convert images to binary format (foreground=1 and background=0))
     image1 = (image1 == 255).astype(np.uint8)
     image2 = (image2 == 255).astype(np.uint8)
 
-    # Compute Jaccard score
-    iou = round(jaccard_score(image1.flatten(), image2.flatten(), average='binary').item(), 8)
+    iou = round(jaccard_score(image1.flatten(), image2.flatten(), average='binary').item(), 4)
 
     return iou
 
@@ -127,28 +122,24 @@ def compute_boundary_recall(image1, image2, tolerance=2):
         recall: float
             The boundary recall score between the two images.
     """
-    # Convert images to binary (foreground=1, background=0)
     binary1 = (image1 == 255).astype(np.uint8)
     binary2 = (image2 == 255).astype(np.uint8)
     
-    # Detect edges using Canny
     edges1 = extract_edges(binary1)
     edges2 = extract_edges(binary2)
     
-    # Get edge coordinates
     y1, x1 = np.where(edges1 > 0)
     y2, x2 = np.where(edges2 > 0)
     
-    if len(x1) == 0:
-        return 0.0  # No edges in ground truth, recall is 0
+    if len(x2) == 0:
+        return 0.0
     
     # Compute distance transform from predicted edges
-    dist_transform = cv2.distanceTransform(edges2, cv2.DIST_L2, 5)
+    dist_transform = cv2.distanceTransform(edges1, cv2.DIST_L2, 5)
     
     # Count the number of ground truth edges within tolerance
-    matched = np.sum(dist_transform[y1, x1] <= tolerance)
+    matched = np.sum(dist_transform[y2, x2] <= tolerance)
     
-    # Compute recall
-    recall = round(matched / len(x1), 4)
+    recall = round(matched / len(x2), 4)
     
     return recall
