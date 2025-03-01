@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-def otsu_treshold(image):
+def otsu(image):
 
     """
     Apply Otsu's tresholding method to segment the image into foreground and background.
@@ -22,7 +22,7 @@ def otsu_treshold(image):
     if len(image.shape) != 2:
         raise ValueError('Input image must be a grayscale image (2D array)')
     
-    hist, _ = np.histogram(image.ravel(), bins=256, range=(0, 256)) # image.ravel() flattens the whole image
+    hist, _ = np.histogram(image.ravel(), bins=256, range=(0, 256)) 
 
     total_pixels = image.size
     prob = hist / total_pixels
