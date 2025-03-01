@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-def otsu_treshold(image):
+def otsu(image):
 
     """
     Apply Otsu's tresholding method to segment the image into foreground and background.
