@@ -1,5 +1,6 @@
 opencv-python==4.11.0.86
 scipy
 scikit-learn
+scikit-image
 numpy==2.0.2
 matplotlib==3.9.4
