@@ -1,6 +1,6 @@
 # Berkeley-ImSeg Pipeline
 
-![Pipeline Overview](path/to/pipeline_image.png)
+![Pipeline Overview](https://github.com/IsmailHatim/Berkeley-ImSeg/blob/master/data/figures/Berkeley-ImSeg.png)
 
 ## Overview
 The **Berkeley-ImSeg** pipeline is an image segmentation project that implements and compares six classical segmentation methods. It is designed for evaluating segmentation performance on natural images using the **BSDS500** dataset.
