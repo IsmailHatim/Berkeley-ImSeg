@@ -52,4 +52,4 @@ def otsu(image):
     
     _, tresholded_image = cv2.threshold(image, best_treshold, 255, cv2.THRESH_BINARY)
     
-    return tresholded_image, best_treshold
+    return tresholded_image

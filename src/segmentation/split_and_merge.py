@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-from .otsu import otsu
 
 def split_and_merge(image, threshold=20):
     """
@@ -54,6 +53,6 @@ def split_and_merge(image, threshold=20):
 
     segmented_image = cv2.resize(merge(image, regions), (original_width, original_height), interpolation=cv2.INTER_NEAREST)
 
-    thresholded_image, best_t = otsu(segmented_image)
+    _, thresholded_image = cv2.threshold(segmented_image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
     return thresholded_image

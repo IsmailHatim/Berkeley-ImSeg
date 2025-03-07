@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-from .otsu import otsu
 
 
 def watershed(image):
@@ -15,7 +14,7 @@ def watershed(image):
         binary_segmentation: numpy.ndarray
             The binary segmentation image (foreground=0, background=255).
     """
-    thresholded_image, _ = otsu(image)
+    _, thresholded_image = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
     kernel = np.ones((3, 3), np.uint8)
     sure_bg = cv2.dilate(thresholded_image, kernel, iterations=3) 

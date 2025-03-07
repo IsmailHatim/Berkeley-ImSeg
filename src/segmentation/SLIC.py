@@ -5,7 +5,6 @@ from sklearn.cluster import KMeans
 from skimage.segmentation import mark_boundaries
 from skimage.measure import regionprops_table
 from skimage.color import rgb2lab
-from .otsu import otsu
 
 def post_process_SLIC(image, slic_labels):
     """
@@ -24,7 +23,7 @@ def post_process_SLIC(image, slic_labels):
     image_lab = rgb2lab(image)
 
     properties = regionprops_table(slic_labels, intensity_image=image_lab[:, :, 0], properties=['label', 'mean_intensity'])
-    _, threshold = otsu(image_lab[:, :, 0])
+    threshold, _ = cv2.threshold(image_lab[:, :, 0], 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
     mask = np.zeros_like(slic_labels, dtype=np.uint8)
 
