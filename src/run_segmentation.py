@@ -18,7 +18,7 @@ def main(args):
     original_image = load_image(image_path)
     
     start_time = time.time()
-    segmented_image, best_t = method(original_image)
+    segmented_image = method(original_image)
     end_time = time.time()
     execution_time = end_time - start_time
 
