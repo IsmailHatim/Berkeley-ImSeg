@@ -56,10 +56,10 @@ def load_gt(gt_path):
     return gt_segmentation_bin
 
 
-def compute_jaccard_score(image1, image2):
+def compute_iou_score(image1, image2):
 
     """
-    Compute the Jaccard similarity coefficient (Intersection on Union) between two binary images.
+    Compute the IoU similarity coefficient (Intersection on Union) between two binary images.
 
     Args:
         image1: numpy.ndarray
@@ -70,7 +70,7 @@ def compute_jaccard_score(image1, image2):
     
     Returns:
         iou: float
-            The Jaccard similarity coefficient between the two images.
+            The IoU similarity coefficient between the two images.
 
     """
     

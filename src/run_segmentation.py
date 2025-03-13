@@ -4,7 +4,7 @@ import os
 import importlib
 import time
 from argparse import ArgumentParser
-from utils import load_image, load_gt, compute_jaccard_score, compute_boundary_recall
+from utils import load_image, load_gt, compute_iou_score, compute_boundary_recall
 
 sys.dont_write_bytecode = True
 
@@ -24,11 +24,11 @@ def main(args):
 
     gt_segmentation_bin = load_gt(ground_path)
 
-    jaccard_score = compute_jaccard_score(segmented_image, gt_segmentation_bin)
+    iou_score = compute_iou_score(segmented_image, gt_segmentation_bin)
     recall_score = compute_boundary_recall(segmented_image, gt_segmentation_bin)
     
     print("+" + "-" * 50 + "+")
-    print(f"Jaccard Score : {jaccard_score}")
+    print(f"IoU Score : {jaccard_score}")
     print(f"Boundary Recall Score : {recall_score}")
     print(f"Execution Time : {execution_time:.4f} seconds")
     print("+" + "-" * 50 + "+")
