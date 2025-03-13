@@ -28,7 +28,7 @@ def main(args):
     recall_score = compute_boundary_recall(segmented_image, gt_segmentation_bin)
     
     print("+" + "-" * 50 + "+")
-    print(f"IoU Score : {jaccard_score}")
+    print(f"IoU Score : {iou_score}")
     print(f"Boundary Recall Score : {recall_score}")
     print(f"Execution Time : {execution_time:.4f} seconds")
     print("+" + "-" * 50 + "+")
