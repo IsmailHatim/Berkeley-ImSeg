@@ -21,21 +21,14 @@ def watershed(image):
     sure_fg = cv2.erode(thresholded_image, kernel, iterations=3)  
     unknown = cv2.subtract(sure_bg, sure_fg)  
 
-    # define markers for watershed
     _, markers = cv2.connectedComponents(sure_fg)
     markers += 1  
     markers[unknown == 255] = 0  
 
-    # convert to color for watershed
     image_color = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
 
-    # Apply watershed
     cv2.watershed(image_color, markers)
 
-    # Boundaries
-    # binary_segmentation = np.where(markers == -1, 255, 0).astype(np.uint8)
-
-    # Segmentation
     binary_segmentation = np.ones_like(image) * 255
     binary_segmentation[markers == 1] = 0
     binary_segmentation[markers == -1] = 255
