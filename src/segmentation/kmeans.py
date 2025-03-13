@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 from sklearn.cluster import KMeans
 
-def kmeans_segmentation(image, k):
+def kmeans(image, k=2):
     """
     Perform image segmentation using K-means clustering
 
@@ -28,7 +28,7 @@ def kmeans_segmentation(image, k):
     segmented_image = labels.reshape(image.shape)
     segmented_image = (segmented_image * 255 // (k-1)).astype(np.uint8)
 
-    return segmented_image, labels
+    return segmented_image
 
 
     
