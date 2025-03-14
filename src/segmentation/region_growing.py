@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-def region_growing(image, seed, threshold=10):
+def region_growing(image, seed=(10,00), threshold=60):
     """
     Apply the Region Growing segmentation algorithm.
 

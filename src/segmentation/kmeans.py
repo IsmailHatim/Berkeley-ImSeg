@@ -28,7 +28,7 @@ def kmeans(image, k=2):
     segmented_image = labels.reshape(image.shape)
     segmented_image = (segmented_image * 255 // (k-1)).astype(np.uint8)
 
-    return segmented_image
+    return cv2.bitwise_not(segmented_image)
 
 
     
