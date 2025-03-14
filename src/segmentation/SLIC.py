@@ -18,7 +18,7 @@ def compute_distance(pixel, center, m, S):
     spatial_dist = np.linalg.norm(pixel[:2] - center[:2]) 
     return np.sqrt(intensity_dist*2 + (m / S) ** 2 * spatial_dist*2)
 
-def SLIC(image, num_superpixels=100, m=10, max_iter=10):
+def slic_segmentation(image, num_superpixels=300, m=5, max_iter=10):
     """
     Apply the SLIC (Simple Linear Iterative Clustering) segmentation algorithm.
 
@@ -73,10 +73,11 @@ def SLIC(image, num_superpixels=100, m=10, max_iter=10):
 
         centers = new_centers / counts[:, None]
     
-    return labels
+    return labels, centers
 
-def segment_foreground(image, labels, centers):
+def SLIC(image):
     """ Separate foreground and background using mean intensity of superpixels """
+    labels, centers = slic_segmentation(image)
     num_superpixels = len(centers)
 
     superpixel_intensity = np.zeros(num_superpixels)
